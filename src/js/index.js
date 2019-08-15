@@ -47,9 +47,10 @@ const controlSearch = async () => {
 }
 
 elements.searchForm.addEventListener('submit', e => {
-    e.preventDefault(); //so the page doesnt refresh
+    e.preventDefault(); //so the page doesn't refresh
     controlSearch();
 });
+
 
 elements.searchResPages.addEventListener('click', e => {
     const btn = e.target.closest('.btn-inline'); //takes everything contained in the <button> and uses it like one object
@@ -65,16 +66,19 @@ elements.searchResPages.addEventListener('click', e => {
 const controlRecipe = async () => {
     //Get the ID from the URL
     const id = window.location.hash.replace('#', '');
+    console.log(id);
 
     if (id){
         //Prepare the UI for changes
 
         //Create new recipe object
         state.recipe = new Recipe(id);
-
+        
         try{
-            //Get recipe data
+            //Get recipe data and parse ingredients
             await state.recipe.getRecipe();
+            console.log(state.recipe.ingredients);
+            state.recipe.parseIngredients();
                     
             //Calculate servings and time
             state.recipe.calcTime();
