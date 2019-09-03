@@ -15,6 +15,7 @@ export default class Recipe {
             this.img = res.data.recipe.image_url;
             this.url = res.data.recipe.source_url;
             this.ingredients = res.data.recipe.ingredients;
+            //This navigates inside the API and gathers information in order to display it on the UI
         } catch (error) {
             console.log(error);
         }
@@ -34,7 +35,7 @@ export default class Recipe {
     parseIngredients() {
         const unitsLong = ['tablespoons', 'tablespoon', 'ounces', 'ounce', 'teaspoons', 'teaspoon', 'cups', 'pounds'];
         const unitsShort = ['tbsp', 'tbsp', 'oz', 'oz', 'tsp', 'tsp', 'cup', 'pound'];
-        const units = [...unitsShort, 'kg', 'g'];
+        const units = [...unitsShort, 'kg', 'g'];           //Unit destructuring
 
         const newIngredients = this.ingredients.map(el => {
             let ingredient = el.toLowerCase(); //let because of mutability
@@ -45,37 +46,42 @@ export default class Recipe {
             });
 
             // 2. Remove parentheses
-            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');  // this is a regular expression
+            ingredient = ingredient.replace(/ *\([^)]*\) */g, ' ');  // this is called a regular expression
+
+// ---------------------------------- DODATNO OBJASNJENJE ----------------------------------- //
 
             // 3. Parse ingredients into count, unit and ingredient
-            const arrIng = ingredient.split(' ');
+            const arrIng = ingredient.split(' '); //split on the empty spaces and add to an array
             const unitIndex = arrIng.findIndex(el2 => units.includes(el2)); //find the position of the unit
 
             let objIng;
             if (unitIndex > -1) { //-1 means the element couldn't be found
                 // There is a unit
-                // Ex. 4 1/2 cups, arrCount is [4, 1/2]
+                // Ex. 4 1/2 cups, arrCount is [4, 1/2] ---> eval(4+1/2) ---> 4.5
                 // Ex. 4 cups, arrCount is [4]
                 const arrCount = arrIng.slice(0, unitIndex);
+                
+                //console.log(arrCount);
+                //console.log(arrIng);
                 
                 let count;
                 if (arrCount.length === 1) {
                     count = eval(arrIng[0].replace('-', '+')) ;
                 } else {
-                    count = eval(arrIng.slice(0, unitIndex).join('+'));  //counts the strings as numbers
+                    count = eval(arrIng.slice(0, unitIndex).join('+'));  //eval counts the strings as numbers
                 }
 
                 objIng = {
                     count,
                     unit: arrIng[unitIndex],
-                    ingredient: arrIng.slice(unitIndex + 1).join(' ')
+                    ingredient: arrIng.slice(unitIndex + 1).join(' ') 
                 };
             } else if (parseInt(arrIng[0], 10)) {
                 // There is NO unit, but 1st element is number
                 objIng = {
                     count: parseInt(arrIng[0], 10),
                     unit: '',
-                    ingredient: arrIng.slice(1).join(' ')
+                    ingredient: arrIng.slice(1).join(' ') // slice everything except the 1st arr element
                 };
             } else if (unitIndex === -1) {
                 // There is NO unit and NO number in 1st position
