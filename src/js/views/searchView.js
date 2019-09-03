@@ -73,7 +73,7 @@ const createButton = (page, type) => `
 const renderButtons = (page, numResults, resPerPage) => {
     const pages = Math.ceil(numResults / resPerPage); 
 
-    let button;
+    let button;                 //let here because of the scoping (let and const have a block scope) and mutability
     if(page === 1 && pages > 1){
         //Only button => goes to the next page
         button = createButton(page, 'next');
@@ -93,6 +93,7 @@ const renderButtons = (page, numResults, resPerPage) => {
 };
 
 export const renderResults = (recipes, page = 1, resPerPage = 10) => {
+    //console.log(recipes);
     // 1. Render results of current page
     const start = (page - 1) * resPerPage;
     const end = page * resPerPage;

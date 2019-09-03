@@ -84,7 +84,7 @@ export const renderRecipe = (recipe, isLiked) => {
 
         <div class="recipe__ingredients">
             <ul class="recipe__ingredient-list">
-                ${recipe.ingredients.map(el => createIngredient(el)).join('')}
+                ${recipe.ingredients.map(el => createIngredient(el)).join('')} 
             </ul>
 
             <button class="btn-small recipe__btn recipe__btn--add">

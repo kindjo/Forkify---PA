@@ -1,4 +1,4 @@
-export const elements = {
+export const elements = {                               //all of the elements for DOM manipulation (so far)
     searchForm: document.querySelector('.search'),
     searchInput: document.querySelector('.search__field'),
     searchRes: document.querySelector('.results'),
@@ -10,7 +10,7 @@ export const elements = {
     likesList: document.querySelector('.likes__list')
 };
 
-export const elementStrings = {
+export const elementStrings = { //^^^ same as the elements, so that it's not hardcoded */
     loader: 'loader'
 };
 

@@ -13,10 +13,11 @@ import * as likesView from './views/likesView';
 
 
 //---------------------- Global state of the app ----------------------//
-//---------------------- SEARCH OBJECT ----------------------//
+    //---------------------- SEARCH OBJECT ----------------------//
 //---------------------- CURRENT RECIPE OBJECT ----------------------//
 //---------------------- SHOPPING LIST OBJECT ----------------------//
-//---------------------- LIKED RECIPES ----------------------//
+    //---------------------- LIKED RECIPES ----------------------//
+        // ^^^^^ this is located inside the state ^^^^^^^^ //
 
 const state = {}; //sve sto se u tom trenutku desava na UI - kako bi imao trenutno stanje svega
 
@@ -24,7 +25,8 @@ const state = {}; //sve sto se u tom trenutku desava na UI - kako bi imao trenut
 
 const controlSearch = async () => {
     // 1) Get query from view
-    const query = searchView.getInput();
+    const query = searchView.getInput();  //get the user input
+    //console.log(query);
 
     if (query) {
         // 2) New search object and add to state
@@ -42,6 +44,7 @@ const controlSearch = async () => {
             // 5) Render results on UI
             clearLoader();
             searchView.renderResults(state.search.result);
+            //console.log(state.search.result);
         }
         catch(err){
             alert('Something went wrong with the search!');
@@ -60,9 +63,10 @@ elements.searchForm.addEventListener('submit', e => {
 
 
 elements.searchResPages.addEventListener('click', e => {
-    const btn = e.target.closest('.btn-inline'); //takes everything contained in the <button> and uses it like one object
+    const btn = e.target.closest('.btn-inline'); //.closest takes everything contained in the <button> and uses it like one object (widens the selection to parents)
     if (btn){
         const goToPage = parseInt(btn.dataset.goto, 10);
+        //console.log(btn.dataset.goto);
         searchView.clearResults();
         searchView.renderResults(state.search.result, goToPage);
     }
@@ -72,7 +76,7 @@ elements.searchResPages.addEventListener('click', e => {
 
 const controlRecipe = async () => {
     //Get the ID from the URL
-    const id = window.location.hash.replace('#', '');
+    const id = window.location.hash.replace('#', ''); // takes out the hash
     //console.log(id);
 
     if (id){
@@ -112,7 +116,7 @@ const controlRecipe = async () => {
 };
 ['hashchange', 'load'].forEach(event => window.addEventListener(event, controlRecipe));
 //window.addEventListener('hashchange', controlRecipe);
-//window.addEventListener('load', controlRecipe);      // this becomes that
+//window.addEventListener('load', controlRecipe);      // this becomes that ^^^^
 
 
 // -------------------------- LIST CONTROLLER -------------------------- //
